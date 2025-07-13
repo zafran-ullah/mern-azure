@@ -1,4 +1,4 @@
-# MERN Stack Application with Docker and CI/CD on Azure
+# MERN Stack Application with Docker and CI/CD with Github Actions on Azure
 
 This is a full-stack MERN (MongoDB, Express.js, React.js, Node.js) application, fully dockerized and ready for CI/CD deployment to Azure via GitHub Actions.
 
