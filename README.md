@@ -41,17 +41,18 @@ docker-compose up --build
 React app → http://localhost:3000/
 
 Express API → http://localhost:5000/api/hello
+---
 
-🐳 Docker Overview
+###🐳 Docker Overview
 Each service (frontend and backend) has its own Dockerfile.
 Use docker-compose to orchestrate them together.
 
-🛠️ Deployment to Azure
+###🛠️ Deployment to Azure
 This repo includes a GitHub Actions workflow (.github/workflows/deploy.yml) to deploy to Azure Web App using Docker Compose.
 
 Make sure to add AZURE_CREDENTIALS as a GitHub Secret for authentication.
 
-🔐 Environment Variables
+###🔐 Environment Variables
 Create .env files in both client/ and server/ folders if needed.
 
 Example (server/.env):
