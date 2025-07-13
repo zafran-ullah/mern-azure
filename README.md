@@ -41,6 +41,7 @@ docker-compose up --build
 React app → http://localhost:3000/
 
 Express API → http://localhost:5000/api/hello
+```
 ---
 
 ###🐳 Docker Overview
