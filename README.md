@@ -16,8 +16,11 @@ This is a full-stack MERN (MongoDB, Express.js, React.js, Node.js) application, 
 ## 📁 Project Structure
 
 ├── client/ # React frontend
+
 ├── server/ # Express backend
+
 ├── docker-compose.yml
+
 ├── .github/workflows/deploy.yml
 
 
