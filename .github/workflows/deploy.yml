@@ -1,9 +1,14 @@
-name: Deploy MERN App to Azure
+name: Build and Deploy MERN to Azure
 
 on:
   push:
     branches:
       - main
+
+env:
+  REGISTRY: mernacr123.azurecr.io
+  CLIENT_IMAGE: mern-client
+  SERVER_IMAGE: mern-server
 
 jobs:
   build-and-deploy:
@@ -17,12 +22,24 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
-    - name: Deploy to Azure Web App
+
+    - name: Login to ACR
+      run: echo "${{ secrets.ACR_PASSWORD }}" | docker login ${{ env.REGISTRY }} -u ${{ secrets.ACR_USERNAME }} --password-stdin
+
+    - name: Build and push client image
+      run: |
+        docker build -t $REGISTRY/$CLIENT_IMAGE:latest ./client
+        docker push $REGISTRY/$CLIENT_IMAGE:latest
+
+    - name: Build and push server image
+      run: |
+        docker build -t $REGISTRY/$SERVER_IMAGE:latest ./server
+        docker push $REGISTRY/$SERVER_IMAGE:latest
+
+    - name: Deploy to Azure Web App with Docker Compose
       uses: azure/webapps-deploy@v2
       with:
         app-name: mern-app-zafran
         slot-name: production
-        images: |
-          client:latest
-          server:latest
+        multicontainer-config-type: compose
+        multicontainer-config-file: docker-compose.yml

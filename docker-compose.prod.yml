@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  client:
+    image: mernacr123.azurecr.io/mern-client:latest
+    ports:
+      - "3000:80"
+
+  server:
+    image: mernacr123.azurecr.io/mern-server:latest
+    ports:
+      - "5000:5000"
