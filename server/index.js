@@ -57,6 +57,25 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 // Routes
+// Favicon route to prevent 404 errors
+app.get('/favicon.ico', (req, res) => {
+  res.status(204).end();
+});
+
+// Root route
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'MERN App API Server', 
+    version: '1.0.0',
+    endpoints: [
+      'GET /api/hello',
+      'GET /api/health',
+      'GET /api/users',
+      'POST /api/users'
+    ]
+  });
+});
+
 app.get('/api/hello', (req, res) => {
   res.json({ message: 'Hello from backend!' });
 });
@@ -109,9 +128,10 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal server error' });
 });
 
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+// 404 handler - Fix for path-to-regexp issue
+app.all('*', (req, res) => {
+  console.log(`❌ 404 - Route not found: ${req.method} ${req.path}`);
+  res.status(404).json({ error: 'Route not found', path: req.path });
 });
 
 const PORT = process.env.PORT || 5000;

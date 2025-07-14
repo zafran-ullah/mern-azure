@@ -37,6 +37,14 @@ jobs:
       run: |
         docker build -t $REGISTRY/$SERVER_IMAGE:latest ./server
         docker push $REGISTRY/$SERVER_IMAGE:latest
+        
+        # Test the server image locally
+        echo "Testing server image..."
+        docker run -d --name test-server -p 5000:5000 -e MONGODB_URI="mongodb://localhost:27017/test" $REGISTRY/$SERVER_IMAGE:latest
+        sleep 10
+        curl -f http://localhost:5000/api/health || echo "Server health check failed"
+        docker stop test-server || true
+        docker rm test-server || true
 
     - name: Deploy to Azure Web App using Docker Compose
       run: |
@@ -48,7 +56,8 @@ jobs:
           --name $WEBAPP_NAME \
           --resource-group $RESOURCE_GROUP \
           --multicontainer-config-type compose \
-          --multicontainer-config-file docker-compose.prod.yml
+          --multicontainer-config-file docker-compose.prod.yml \
+          --docker-registry-server-url https://mernacr123.azurecr.io
         
         # Set environment variables
         az webapp config appsettings set \
