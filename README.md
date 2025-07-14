@@ -2,11 +2,6 @@
 
 A full-stack MERN (MongoDB, Express.js, React.js, Node.js) application with complete Docker containerization and CI/CD deployment to Azure Web App.
 
-## 🚀 Live Demo
-
-- **Frontend**: [https://mern-app-zafran.azurewebsites.net](https://mern-app-zafran.azurewebsites.net)
-- **API Health Check**: [https://mern-app-zafran.azurewebsites.net/api/health](https://mern-app-zafran.azurewebsites.net/api/health)
-
 ---
 
 ## 📦 Tech Stack
