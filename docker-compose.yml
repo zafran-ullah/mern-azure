@@ -7,7 +7,25 @@ services:
       - "3000:80"
     depends_on:
       - server
+      
   server:
     build: ./server
     ports:
       - "5000:5000"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/mernapp
+      - NODE_ENV=development
+      
+  mongodb:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=mernapp
+
+volumes:
+  mongodb_data:

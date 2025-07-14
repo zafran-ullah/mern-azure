@@ -51,7 +51,10 @@ jobs:
         az webapp config appsettings set \
           --name $WEBAPP_NAME \
           --resource-group $RESOURCE_GROUP \
-          --settings WEBSITES_PORT=80 WEBSITES_ENABLE_APP_SERVICE_STORAGE=false
+          --settings WEBSITES_PORT=80 WEBSITES_ENABLE_APP_SERVICE_STORAGE=false \
+          MONGODB_URI="${{ secrets.MONGODB_URI }}" \
+          NODE_ENV=production \
+          CORS_ORIGIN=https://mern-app-zafran.azurewebsites.net
         
         # Enable container logging
         az webapp log config \
