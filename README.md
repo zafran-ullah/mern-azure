@@ -305,25 +305,4 @@ az webapp log download --name mern-app --resource-group mern-group
 
 MIT License - feel free to use, modify, and distribute.
 
----
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
----
-
-## 📞 Support
-
-- **Issues**: Create a GitHub issue
-- **Documentation**: Check Azure documentation
-- **Monitoring**: Use Azure Application Insights for detailed diagnostics
-
----
-
-**🎉 Your MERN stack application is now running successfully on Azure!**
 
