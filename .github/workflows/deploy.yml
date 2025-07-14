@@ -40,34 +40,52 @@ jobs:
 
     - name: Deploy to Azure Web App using Docker Compose
       run: |
-        # Upload the docker-compose file to Azure
+        # Stop the app service to clear any stuck containers
+        az webapp stop --name $WEBAPP_NAME --resource-group $RESOURCE_GROUP
+        
+        # Configure the multi-container app
         az webapp config container set \
           --name $WEBAPP_NAME \
           --resource-group $RESOURCE_GROUP \
           --multicontainer-config-type compose \
           --multicontainer-config-file docker-compose.prod.yml
         
-        # Set environment variables for the web app
+        # Set environment variables
         az webapp config appsettings set \
           --name $WEBAPP_NAME \
           --resource-group $RESOURCE_GROUP \
-          --settings WEBSITES_PORT=80 WEBSITES_ENABLE_APP_SERVICE_STORAGE=false \
+          --settings \
+          WEBSITES_PORT=80 \
+          WEBSITES_ENABLE_APP_SERVICE_STORAGE=false \
+          WEBSITES_CONTAINER_START_TIME_LIMIT=600 \
+          DOCKER_ENABLE_CI=true \
           MONGODB_URI="${{ secrets.MONGODB_URI }}" \
           NODE_ENV=production \
           CORS_ORIGIN=https://mern-app-zafran.azurewebsites.net
         
-        # Enable container logging
+        # Enable logging
         az webapp log config \
           --name $WEBAPP_NAME \
           --resource-group $RESOURCE_GROUP \
-          --docker-container-logging filesystem
+          --application-logging filesystem \
+          --detailed-error-messages true \
+          --failed-request-tracing true \
+          --web-server-logging filesystem
         
-        # Restart to apply changes
-        az webapp restart --name $WEBAPP_NAME --resource-group $RESOURCE_GROUP
+        # Start the app service
+        az webapp start --name $WEBAPP_NAME --resource-group $RESOURCE_GROUP
         
-        # Wait a moment for the app to start
+        # Wait for containers to start
+        echo "Waiting for containers to start..."
+        sleep 60
+        
+        # Check app status
+        echo "Checking app status..."
+        az webapp show --name $WEBAPP_NAME --resource-group $RESOURCE_GROUP --query "state" -o tsv
+        
+        # Show container logs
+        echo "Container logs:"
+        az webapp log tail --name $WEBAPP_NAME --resource-group $RESOURCE_GROUP --provider application &
+        LOG_PID=$!
         sleep 30
-        
-        # Show recent logs for debugging
-        echo "Recent logs:"
-        az webapp log download --name $WEBAPP_NAME --resource-group $RESOURCE_GROUP --log-file deployment_logs.zip || true
+        kill $LOG_PID || true

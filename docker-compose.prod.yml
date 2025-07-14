@@ -10,6 +10,7 @@ services:
       - NODE_ENV=production
     depends_on:
       - server
+    restart: unless-stopped
 
   server:
     image: mernacr123.azurecr.io/mern-server:latest
@@ -18,6 +19,11 @@ services:
     environment:
       - PORT=5000
       - NODE_ENV=production
-      # Use Azure CosmosDB or MongoDB Atlas connection string
-      - MONGODB_URI=${MONGODB_URI}
-      - CORS_ORIGIN=https://mern-app-zafran.azurewebsites.net
+      # MongoDB connection will be set via Azure App Service environment variables
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

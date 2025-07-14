@@ -1,0 +1,63 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Build output
+client/build/
+server/dist/
+
+# Environment variables
+*.env
+.env
+server/.env
+client/.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
+
+# Docker
+**/node_modules
+**/npm-debug.log
+docker-compose.override.yml
+
+# Azure
+.azure/
+azure.yaml
+
+# Secrets and credentials
+SECRETS_SETUP.md
+credentials.json
+service-principal.json
+
+# Container logs
+deployment_logs.zip
+container_logs.txt
