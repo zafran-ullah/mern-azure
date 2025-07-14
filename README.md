@@ -169,7 +169,7 @@ Add these secrets to your GitHub repository settings:
 ```bash
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/mernapp
 AZURE_CREDENTIALS={"clientId":"...","clientSecret":"...","subscriptionId":"...","tenantId":"..."}
-ACR_USERNAME=mernacr123
+ACR_USERNAME=acr123
 ACR_PASSWORD=your-acr-password
 ```
 
@@ -184,7 +184,7 @@ ACR_PASSWORD=your-acr-password
 ### Monitoring
 
 - **Azure Portal**: Monitor app performance and logs
-- **Health Check**: `https://mern-app-zafran.azurewebsites.net/api/health`
+- **Health Check**: `https://***.azurewebsites.net/api/health`
 - **Application Insights**: Detailed telemetry and diagnostics
 
 ---
@@ -198,7 +198,7 @@ ACR_PASSWORD=your-acr-password
 PORT=5000
 NODE_ENV=production
 MONGODB_URI=mongodb+srv://...
-CORS_ORIGIN=https://mern-app-zafran.azurewebsites.net
+CORS_ORIGIN=https://***.azurewebsites.net
 ```
 
 #### Azure Web App Settings
@@ -228,10 +228,10 @@ curl http://localhost:5000/api/users
 ### Production Testing
 ```bash
 # Health check
-curl https://mern-app-zafran.azurewebsites.net/api/health
+curl https://***.azurewebsites.net/api/health
 
 # API test
-curl https://mern-app-zafran.azurewebsites.net/api/hello
+curl https://***.azurewebsites.net/api/hello
 ```
 
 ---
@@ -258,13 +258,13 @@ curl https://mern-app-zafran.azurewebsites.net/api/hello
 
 ```bash
 # Check Azure Web App logs
-az webapp log tail --name mern-app-zafran --resource-group mern-group
+az webapp log tail --name mern-app --resource-group mern-group
 
 # Check container status
-az webapp show --name mern-app-zafran --resource-group mern-group --query "state"
+az webapp show --name mern-app --resource-group mern-group --query "state"
 
 # Download logs
-az webapp log download --name mern-app-zafran --resource-group mern-group
+az webapp log download --name mern-app --resource-group mern-group
 ```
 
 ---
